@@ -3,7 +3,9 @@ FLAGS = -Wall -Wextra -Werror -Iinc -pthread
 
 SRCS = srcs/main.c \
 	   srcs/parsing/parser.c \
-	   srcs/parsing/ft_atoi.c
+	   srcs/parsing/ft_atoi.c \
+	   srcs/exec/exec.c \
+	   srcs/exec/philo_routine.c
 
 OBJS_DIR = objects/
 OBJS = $(patsubst srcs/%.c, $(OBJS_DIR)%.o, $(SRCS))
