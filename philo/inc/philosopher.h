@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/20 13:46:55 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:12:59 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ void		join_threads(t_data *data);
 void		cleanup(t_data *data);
 
 //ERROR HANDLING
-void	ret_error(t_data *data, const char *error_mess);
+void		ret_error(t_data *data, const char *error_mess);
 
 #endif
