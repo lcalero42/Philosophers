@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:59:21 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/19 18:37:48 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/20 10:27:54 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	init_philosophers(t_data *data)
 	i = 0;
 	while (i < data->nb_philo)
 	{
-		data->philosophers[i].id = i;
+		data->philosophers[i].id = i + 1;
 		data->philosophers[i].left_fork_id = i;
 		data->philosophers[i].right_fork_id = (i + 1) % data->nb_philo;
 		data->philosophers[i].state = THINKING;

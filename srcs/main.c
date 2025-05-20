@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:39:27 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/19 20:01:20 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/20 11:02:28 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return (1);
-	printf("Philosopher launched\n");
 	parse_input(av, &data, &tv);
 	//print_data(&data);
 	exec(&data);
