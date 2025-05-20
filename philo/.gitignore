@@ -56,3 +56,6 @@ dkms.conf
 
 #tester
 tester
+
+#executable
+philo
