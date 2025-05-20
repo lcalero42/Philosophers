@@ -4,6 +4,7 @@ FLAGS = -Wall -Wextra -Werror -Iinc -pthread
 SRCS = srcs/main.c \
 	   srcs/parsing/parser.c \
 	   srcs/parsing/ft_atoi.c \
+	   srcs/parsing/check_params.c \
 	   srcs/exec/exec.c \
 	   srcs/exec/philo_routine.c \
 	   srcs/exec/philosopher_utils.c \

@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/20 15:12:59 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:28:16 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_data
 }		t_data;
 
 //FUNCTIONS
-void		parse_input(char **av, t_data *data, struct timeval *tv);
+void		parse_input(char **av, t_data *data, struct timeval *tv, int ac);
 int			ft_atoi(const char *nptr);
 void		exec(t_data *data);
 void		*philosopher_routine(void *arg);
@@ -80,5 +80,6 @@ void		cleanup(t_data *data);
 
 //ERROR HANDLING
 void		ret_error(t_data *data, const char *error_mess);
+int			check_params(t_data *data, int ac);
 
 #endif
