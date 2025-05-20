@@ -54,8 +54,5 @@ dkms.conf
 #vscode
 .vscode
 
-#binary
-philo
-
 #tester
 tester
