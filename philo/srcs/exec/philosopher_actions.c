@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:35:03 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/22 19:04:34 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/22 19:09:58 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,26 +57,25 @@ void	eat(t_philo *philo)
 	philo->meals_eaten++;
 }
 
-void put_down_forks(t_philo *philo)
+void	put_down_forks(t_philo *philo)
 {
-    t_data *data = philo->data;
-    int first_fork, second_fork;
+	t_data	*data;
+	int		first_fork;
+	int		second_fork;
 
-    // Determine the order used in take_forks()
-    if (philo->left_fork_id < philo->right_fork_id)
-    {
-        first_fork = philo->left_fork_id;
-        second_fork = philo->right_fork_id;
-    }
-    else
-    {
-        first_fork = philo->right_fork_id;
-        second_fork = philo->left_fork_id;
-    }
-
-    // Unlock in REVERSE order (second fork first, then first fork)
-    pthread_mutex_unlock(&data->forks[second_fork].mutex);
-    pthread_mutex_unlock(&data->forks[first_fork].mutex);
+	data = philo->data;
+	if (philo->left_fork_id < philo->right_fork_id)
+	{
+		first_fork = philo->left_fork_id;
+		second_fork = philo->right_fork_id;
+	}
+	else
+	{
+		first_fork = philo->right_fork_id;
+		second_fork = philo->left_fork_id;
+	}
+	pthread_mutex_unlock(&data->forks[second_fork].mutex);
+	pthread_mutex_unlock(&data->forks[first_fork].mutex);
 }
 
 void	philo_sleep(t_philo *philo)
