@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/20 15:28:16 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:53:36 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ typedef struct s_data
 	int				stop_simulation;
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	start_mutex;
+	int				threads_ready;
+	int				all_threads_ready;
 }		t_data;
 
 //FUNCTIONS
@@ -77,6 +80,10 @@ void		set_simulation_stop(t_data *data);
 void		update_last_meal(t_philo *philo);
 void		join_threads(t_data *data);
 void		cleanup(t_data *data);
+void		ft_usleep(int time, t_data *data);
+void		wait_threads(t_data *data);
+void		sync_philo_routine(t_data *data, t_philo *philo);
+void		sync_monitor_routine(t_data *data);
 
 //ERROR HANDLING
 void		ret_error(t_data *data, const char *error_mess);

@@ -55,7 +55,8 @@ dkms.conf
 .vscode
 
 #tester
-tester
+tests.sh
 
 #executable
 philo
+objects

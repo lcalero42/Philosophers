@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:08:30 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/20 15:11:41 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:41:42 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	exec(t_data *data)
 		ret_error(data, "Failed to init mutex\n");
 	if (pthread_mutex_init(&data->print_mutex, NULL))
 		ret_error(data, "Failed to init mutex\n");
-	data->stop_simulation = 0;
-	data->start_time = get_timestamp_ms();
+	if (pthread_mutex_init(&data->start_mutex, NULL))
+		ret_error(data, "Failed to init start mutex\n");
 	if (data->nb_philo == 1)
 	{
 		handle_single_philosopher(data);
@@ -32,6 +32,7 @@ void	exec(t_data *data)
 		return ;
 	}
 	create_threads(data);
+	wait_threads(data);
 	if (pthread_create(&monitor_thread, NULL, monitor_routine, data))
 		ret_error(data, "Failed to create monitor thread\n");
 	pthread_join(monitor_thread, NULL);
@@ -86,13 +87,13 @@ void	cleanup(t_data *data)
 	}
 	pthread_mutex_destroy(&data->stop_mutex);
 	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->start_mutex);
 }
 
 static void	handle_single_philosopher(t_data *data)
 {
 	pthread_mutex_init(&data->philosophers[0].last_meal_mutex, NULL);
 	pthread_mutex_init(&data->forks[0].mutex, NULL);
-	print_status(data, 1, "is thinking", 0);
 	pthread_mutex_lock(&data->forks[0].mutex);
 	print_status(data, 1, "has taken a fork", 0);
 	usleep(data->time_death * 1000);

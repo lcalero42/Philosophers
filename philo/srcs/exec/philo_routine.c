@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:35:26 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/20 15:06:21 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:53:55 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	*philosopher_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	data = philo->data;
-	if (philo->id % 2 == 0)
+	sync_philo_routine(data, philo);
+	if (philo->id % 2 != 0)
 		usleep(1000);
 	while (!check_simulation_stop(data))
 	{
@@ -94,6 +95,7 @@ void	*monitor_routine(void *arg)
 	int		i;
 
 	data = (t_data *)arg;
+	sync_monitor_routine(data);
 	while (1)
 	{
 		i = 0;
@@ -105,6 +107,6 @@ void	*monitor_routine(void *arg)
 		}
 		if (check_all_philosophers_full(data))
 			return (NULL);
-		usleep(1000);
+		usleep(500);
 	}
 }

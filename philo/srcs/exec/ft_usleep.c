@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   return_error.c                                     :+:      :+:    :+:   */
+/*   ft_usleep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 13:42:40 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/21 15:25:28 by lcalero          ###   ########.fr       */
+/*   Created: 2025/05/21 11:48:10 by lcalero           #+#    #+#             */
+/*   Updated: 2025/05/22 18:55:36 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	ret_error(t_data *data, const char *error_mess)
+void	ft_usleep(int time, t_data *data)
 {
-	perror(error_mess);
-	set_simulation_stop(data);
-	join_threads(data);
-	cleanup(data);
+	long long	start;
+	long long	elapsed;
+
+	start = get_timestamp_ms();
+	while (!check_simulation_stop(data))
+	{
+		elapsed = get_timestamp_ms() - start;
+		if (elapsed >= time)
+			break ;
+		usleep(100);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:14:30 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/20 15:31:32 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/21 12:11:04 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_params(t_data *data, int ac)
 		printf("number of philosopher must not be above 250\n");
 		return (0);
 	}
-	if (data->time_eat < 0 || data->time_sleep < 0 || data->time_death < 0)
+	if (data->time_eat < 1 || data->time_sleep < 1 || data->time_death < 1)
 	{
 		printf("timers must be over 0\n");
 		return (0);

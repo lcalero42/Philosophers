@@ -9,7 +9,9 @@ SRCS = srcs/main.c \
 	   srcs/exec/philo_routine.c \
 	   srcs/exec/philosopher_utils.c \
 	   srcs/exec/philosopher_actions.c \
-	   srcs/exec/return_error.c
+	   srcs/exec/return_error.c \
+	   srcs/exec/ft_usleep.c \
+	   srcs/exec/philo_sync.c
 
 OBJS_DIR = objects/
 OBJS = $(patsubst srcs/%.c, $(OBJS_DIR)%.o, $(SRCS))
