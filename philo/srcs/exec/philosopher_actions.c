@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:35:03 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/22 18:57:33 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/22 19:04:34 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,26 @@ void	eat(t_philo *philo)
 	philo->meals_eaten++;
 }
 
-void	put_down_forks(t_philo *philo)
+void put_down_forks(t_philo *philo)
 {
-	t_data	*data;
+    t_data *data = philo->data;
+    int first_fork, second_fork;
 
-	data = philo->data;
-	pthread_mutex_unlock(&data->forks[philo->right_fork_id].mutex);
-	pthread_mutex_unlock(&data->forks[philo->left_fork_id].mutex);
+    // Determine the order used in take_forks()
+    if (philo->left_fork_id < philo->right_fork_id)
+    {
+        first_fork = philo->left_fork_id;
+        second_fork = philo->right_fork_id;
+    }
+    else
+    {
+        first_fork = philo->right_fork_id;
+        second_fork = philo->left_fork_id;
+    }
+
+    // Unlock in REVERSE order (second fork first, then first fork)
+    pthread_mutex_unlock(&data->forks[second_fork].mutex);
+    pthread_mutex_unlock(&data->forks[first_fork].mutex);
 }
 
 void	philo_sleep(t_philo *philo)
