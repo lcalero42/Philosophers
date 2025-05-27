@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:59:21 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/22 17:37:46 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/27 20:54:09 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static void	init_philosophers(t_data *data)
 		philo->meals_eaten = 0;
 		philo->data = data;
 		if (pthread_mutex_init(&philo->last_meal_mutex, NULL))
+			ret_error(data, "Failed to init mutex\n");
+		if (pthread_mutex_init(&philo->meals_mutex, NULL))
 			ret_error(data, "Failed to init mutex\n");
 		i++;
 	}

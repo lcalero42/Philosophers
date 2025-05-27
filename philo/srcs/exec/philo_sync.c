@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:18:24 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/22 18:53:21 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/27 20:52:53 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	wait_threads(t_data *data)
 			break ;
 		}
 		pthread_mutex_unlock(&data->start_mutex);
-		usleep(50);
+		usleep(500);
 	}
 }
 

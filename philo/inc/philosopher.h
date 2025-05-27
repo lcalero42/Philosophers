@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/27 13:36:37 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/27 20:51:15 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philo
 	int				meals_eaten;
 	pthread_t		thread_id;
 	pthread_mutex_t	last_meal_mutex;
+	pthread_mutex_t	meals_mutex;
 
 	struct s_data	*data;
 }	t_philo;
@@ -69,7 +70,7 @@ void		*philosopher_routine(void *arg);
 void		*monitor_routine(void *arg);
 
 //PHILO ACTIONS
-void		take_forks(t_philo *philo);
+int			take_forks(t_philo *philo);
 void		eat(t_philo *philo);
 void		put_down_forks(t_philo *philo);
 void		philo_sleep(t_philo *philo);

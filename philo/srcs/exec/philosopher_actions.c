@@ -6,13 +6,13 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:35:03 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/27 13:55:56 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/27 20:52:17 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	take_forks(t_philo *philo)
+int	take_forks(t_philo *philo)  // Change return type to int
 {
 	t_data	*data;
 	int		first_fork;
@@ -35,7 +35,7 @@ void	take_forks(t_philo *philo)
 	{
 		data->forks[first_fork].is_taken = 0;
 		pthread_mutex_unlock(&data->forks[first_fork].mutex);
-		return ;
+		return (0);  // Failed to acquire both forks
 	}
 	print_status(data, philo->id, "has taken a fork", 0);
 	pthread_mutex_lock(&data->forks[second_fork].mutex);
@@ -46,9 +46,10 @@ void	take_forks(t_philo *philo)
 		data->forks[first_fork].is_taken = 0;
 		pthread_mutex_unlock(&data->forks[second_fork].mutex);
 		pthread_mutex_unlock(&data->forks[first_fork].mutex);
-		return ;
+		return (0);  // Failed to acquire both forks
 	}
 	print_status(data, philo->id, "has taken a fork", 0);
+	return (1);  // Successfully acquired both forks
 }
 
 void	eat(t_philo *philo)
@@ -59,7 +60,9 @@ void	eat(t_philo *philo)
 	update_last_meal(philo);
 	print_status(data, philo->id, "is eating", 0);
 	ft_usleep(data->time_eat, philo->data);
+	pthread_mutex_lock(&philo->meals_mutex);
 	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->meals_mutex);
 }
 
 void	put_down_forks(t_philo *philo)
@@ -79,16 +82,12 @@ void	put_down_forks(t_philo *philo)
 		first_fork = philo->right_fork_id;
 		second_fork = philo->left_fork_id;
 	}
-	if (data->forks[second_fork].is_taken)
-	{
-		data->forks[second_fork].is_taken = 0;
-		pthread_mutex_unlock(&data->forks[second_fork].mutex);
-	}
-	if (data->forks[first_fork].is_taken)
-	{
-		data->forks[first_fork].is_taken = 0;
-		pthread_mutex_unlock(&data->forks[first_fork].mutex);
-	}
+	// Release in reverse order (second fork first)
+	data->forks[second_fork].is_taken = 0;
+	pthread_mutex_unlock(&data->forks[second_fork].mutex);
+	
+	data->forks[first_fork].is_taken = 0;
+	pthread_mutex_unlock(&data->forks[first_fork].mutex);
 }
 
 void	philo_sleep(t_philo *philo)

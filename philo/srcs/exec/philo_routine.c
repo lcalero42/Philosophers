@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:35:26 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/22 18:53:55 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/27 20:55:44 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	*philosopher_routine(void *arg)
 {
 	t_philo	*philo;
 	t_data	*data;
+	int		has_forks = 0;  // Add this flag
 
 	philo = (t_philo *)arg;
 	data = philo->data;
@@ -27,11 +28,14 @@ void	*philosopher_routine(void *arg)
 		take_forks(philo);
 		if (check_simulation_stop(data))
 		{
-			put_down_forks(philo);
+			if (has_forks)  // Only put down if we actually have them
+				put_down_forks(philo);
 			break ;
 		}
+		has_forks = 1;  // Mark that we have forks
 		eat(philo);
 		put_down_forks(philo);
+		has_forks = 0;  // Mark that we don't have forks
 		if (check_simulation_stop(data))
 			break ;
 		philo_sleep(philo);
@@ -71,11 +75,11 @@ int	check_all_philosophers_full(t_data *data)
 	all_full = 1;
 	while (i < data->nb_philo && all_full)
 	{
-		pthread_mutex_lock(&data->philosophers[i].last_meal_mutex);
+		pthread_mutex_lock(&data->philosophers[i].meals_mutex);
 		if ((data->philosophers[i].meals_eaten < data->nb_eat)
 			&& data->nb_eat != -1)
 			all_full = 0;
-		pthread_mutex_unlock(&data->philosophers[i].last_meal_mutex);
+		pthread_mutex_unlock(&data->philosophers[i].meals_mutex);
 		i++;
 	}
 	if (data->nb_eat != -1 && all_full)
