@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/22 18:53:36 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:36:37 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
 # include <stdlib.h>
 # include <string.h>
 
+//MACROS
 # define MAX_PHILO 250
 
+//STRCUTS
 typedef struct s_fork
 {
+	int				is_taken;
 	pthread_mutex_t	mutex;
 }		t_fork;
 
