@@ -3,53 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_actions.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
+/*   By: luis <luis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:35:03 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/27 20:52:17 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:05:03 by luis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-int	take_forks(t_philo *philo)  // Change return type to int
+int	take_forks(t_philo *philo)
 {
 	t_data	*data;
 	int		first_fork;
 	int		second_fork;
 
 	data = philo->data;
-	if (philo->left_fork_id < philo->right_fork_id)
-	{
-		first_fork = philo->left_fork_id;
-		second_fork = philo->right_fork_id;
-	}
-	else
-	{
-		first_fork = philo->right_fork_id;
-		second_fork = philo->left_fork_id;
-	}
-	pthread_mutex_lock(&data->forks[first_fork].mutex);
-	data->forks[first_fork].is_taken = 1;
-	if (check_simulation_stop(data))
+	get_fork_order(philo, &first_fork, &second_fork);
+	if (!acquire_fork(data, first_fork, philo->id))
+		return (0);
+	if (!acquire_fork(data, second_fork, philo->id))
 	{
 		data->forks[first_fork].is_taken = 0;
 		pthread_mutex_unlock(&data->forks[first_fork].mutex);
-		return (0);  // Failed to acquire both forks
+		return (0);
 	}
-	print_status(data, philo->id, "has taken a fork", 0);
-	pthread_mutex_lock(&data->forks[second_fork].mutex);
-	data->forks[second_fork].is_taken = 1;
-	if (check_simulation_stop(data))
-	{
-		data->forks[second_fork].is_taken = 0;
-		data->forks[first_fork].is_taken = 0;
-		pthread_mutex_unlock(&data->forks[second_fork].mutex);
-		pthread_mutex_unlock(&data->forks[first_fork].mutex);
-		return (0);  // Failed to acquire both forks
-	}
-	print_status(data, philo->id, "has taken a fork", 0);
-	return (1);  // Successfully acquired both forks
+	return (1);
 }
 
 void	eat(t_philo *philo)
@@ -82,10 +61,8 @@ void	put_down_forks(t_philo *philo)
 		first_fork = philo->right_fork_id;
 		second_fork = philo->left_fork_id;
 	}
-	// Release in reverse order (second fork first)
 	data->forks[second_fork].is_taken = 0;
 	pthread_mutex_unlock(&data->forks[second_fork].mutex);
-	
 	data->forks[first_fork].is_taken = 0;
 	pthread_mutex_unlock(&data->forks[first_fork].mutex);
 }

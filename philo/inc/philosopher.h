@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
+/*   By: luis <luis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/27 20:51:15 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:04:10 by luis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int			ft_atoi(const char *nptr);
 void		exec(t_data *data);
 void		*philosopher_routine(void *arg);
 void		*monitor_routine(void *arg);
+int			philo_cycle(t_philo *philo, int *has_forks);
 
 //PHILO ACTIONS
 int			take_forks(t_philo *philo);
@@ -88,6 +89,9 @@ void		ft_usleep(int time, t_data *data);
 void		wait_threads(t_data *data);
 void		sync_philo_routine(t_data *data, t_philo *philo);
 void		sync_monitor_routine(t_data *data);
+void		get_fork_order(t_philo *philo, int *first, int *second);
+void		release_forks(t_data *data, int first_fork, int second_fork);
+int			acquire_fork(t_data *data, int fork_id, int philo_id);
 
 //ERROR HANDLING
 void		ret_error(t_data *data, const char *error_mess);

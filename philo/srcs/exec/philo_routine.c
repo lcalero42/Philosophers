@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
+/*   By: luis <luis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:35:26 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/27 20:55:44 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:00:57 by luis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	*philosopher_routine(void *arg)
 {
 	t_philo	*philo;
 	t_data	*data;
-	int		has_forks = 0;  // Add this flag
+	int		has_forks;
 
+	has_forks = 0;
 	philo = (t_philo *)arg;
 	data = philo->data;
 	sync_philo_routine(data, philo);
@@ -25,23 +26,8 @@ void	*philosopher_routine(void *arg)
 		usleep(1000);
 	while (!check_simulation_stop(data))
 	{
-		take_forks(philo);
-		if (check_simulation_stop(data))
-		{
-			if (has_forks)  // Only put down if we actually have them
-				put_down_forks(philo);
+		if (!philo_cycle(philo, &has_forks))
 			break ;
-		}
-		has_forks = 1;  // Mark that we have forks
-		eat(philo);
-		put_down_forks(philo);
-		has_forks = 0;  // Mark that we don't have forks
-		if (check_simulation_stop(data))
-			break ;
-		philo_sleep(philo);
-		if (check_simulation_stop(data))
-			break ;
-		think(philo);
 	}
 	return (NULL);
 }
