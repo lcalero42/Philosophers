@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luis <luis@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:59:26 by luis              #+#    #+#             */
-/*   Updated: 2025/05/31 16:02:54 by luis             ###   ########.fr       */
+/*   Updated: 2025/06/02 14:50:59 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	philo_cycle(t_philo *philo, int *has_forks)
 	if (check_simulation_stop(philo->data))
 		return (0);
 	think(philo);
+	ft_usleep(1, philo->data);
 	return (1);
 }
 
@@ -58,14 +59,14 @@ void	release_forks(t_data *data, int first_fork, int second_fork)
 
 void	get_fork_order(t_philo *philo, int *first, int *second)
 {
-	if (philo->left_fork_id < philo->right_fork_id)
-	{
-		*first = philo->left_fork_id;
-		*second = philo->right_fork_id;
-	}
-	else
+	if (philo->id % 2 == 0)
 	{
 		*first = philo->right_fork_id;
 		*second = philo->left_fork_id;
+	}
+	else
+	{
+		*first = philo->left_fork_id;
+		*second = philo->right_fork_id;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:35:26 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/02 13:47:46 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:12:02 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void	*philosopher_routine(void *arg)
 	philo = (t_philo *)arg;
 	data = philo->data;
 	sync_philo_routine(data, philo);
-	if (philo->id % 2 != 0)
-		usleep(1000);
+	update_last_meal(philo);
+	if (philo->id % 2 == 0)
+		usleep(100);
 	while (!check_simulation_stop(data))
 	{
 		if (!philo_cycle(philo, &has_forks))
@@ -71,9 +72,6 @@ int	check_all_philosophers_full(t_data *data)
 	if (data->nb_eat != -1 && all_full)
 	{
 		set_simulation_stop(data);
-		pthread_mutex_lock(&data->print_mutex);
-		printf("ALL MEALS HAVE BEEN EATEN\n");
-		pthread_mutex_unlock(&data->print_mutex);
 		return (1);
 	}
 	return (0);

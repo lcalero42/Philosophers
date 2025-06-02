@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:33:57 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/21 14:48:58 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:04:00 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,19 @@ long long	get_timestamp_ms(void)
 
 void	print_status(t_data *data, int id, char *status, int should_print)
 {
+	long long			timestamp;
+	static long long	last_timestamp = 0;
+
 	pthread_mutex_lock(&data->print_mutex);
 	if (!check_simulation_stop(data) || should_print)
-		printf("%lld %d %s\n",
-			get_timestamp_ms() - data->start_time, id, status);
+	{
+		timestamp = get_timestamp_ms() - data->start_time;
+		if (timestamp < last_timestamp)
+			timestamp = last_timestamp;
+		else
+			last_timestamp = timestamp;
+		printf("%lld %d %s\n", timestamp, id, status);
+	}
 	pthread_mutex_unlock(&data->print_mutex);
 }
 

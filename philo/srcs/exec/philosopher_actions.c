@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_actions.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luis <luis@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:35:03 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/31 16:05:03 by luis             ###   ########.fr       */
+/*   Updated: 2025/06/02 14:39:46 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,15 @@ void	put_down_forks(t_philo *philo)
 	int		second_fork;
 
 	data = philo->data;
-	if (philo->left_fork_id < philo->right_fork_id)
-	{
-		first_fork = philo->left_fork_id;
-		second_fork = philo->right_fork_id;
-	}
-	else
+	if (philo->id % 2 == 0)
 	{
 		first_fork = philo->right_fork_id;
 		second_fork = philo->left_fork_id;
+	}
+	else
+	{
+		first_fork = philo->left_fork_id;
+		second_fork = philo->right_fork_id;
 	}
 	data->forks[second_fork].is_taken = 0;
 	pthread_mutex_unlock(&data->forks[second_fork].mutex);
