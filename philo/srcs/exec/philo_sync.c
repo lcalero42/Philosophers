@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:18:24 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/27 20:52:53 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:38:44 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	wait_threads(t_data *data)
 			break ;
 		}
 		pthread_mutex_unlock(&data->start_mutex);
-		usleep(500);
+		usleep(100);
 	}
 }
 
@@ -43,7 +43,7 @@ void	sync_philo_routine(t_data *data, t_philo *philo)
 			break ;
 		}
 		pthread_mutex_unlock(&data->start_mutex);
-		usleep(500);
+		usleep(100);
 	}
 	pthread_mutex_lock(&philo->last_meal_mutex);
 	philo->last_meal = get_timestamp_ms();
@@ -61,6 +61,6 @@ void	sync_monitor_routine(t_data *data)
 			break ;
 		}
 		pthread_mutex_unlock(&data->start_mutex);
-		usleep(500);
+		usleep(100);
 	}
 }
