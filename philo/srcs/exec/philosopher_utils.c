@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:33:57 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/02 15:04:00 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:28:52 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	set_simulation_stop(t_data *data)
 	pthread_mutex_lock(&data->stop_mutex);
 	data->stop_simulation = 1;
 	pthread_mutex_unlock(&data->stop_mutex);
+	usleep(5000);
 }
 
 void	update_last_meal(t_philo *philo)

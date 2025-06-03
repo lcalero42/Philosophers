@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:35:26 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/02 15:12:02 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:31:47 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ int	check_all_philosophers_full(t_data *data)
 		pthread_mutex_lock(&data->philosophers[i].meals_mutex);
 		if ((data->philosophers[i].meals_eaten < data->nb_eat)
 			&& data->nb_eat != -1)
+		{
 			all_full = 0;
+		}
 		pthread_mutex_unlock(&data->philosophers[i].meals_mutex);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:59:26 by luis              #+#    #+#             */
-/*   Updated: 2025/06/02 14:50:59 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:43:50 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ int	philo_cycle(t_philo *philo, int *has_forks)
 		return (0);
 	}
 	*has_forks = 1;
+	pthread_mutex_lock(&philo->meals_mutex);
+	if (philo->data->nb_eat != -1 && philo->meals_eaten >= philo->data->nb_eat)
+	{
+		pthread_mutex_unlock(&philo->meals_mutex);
+		put_down_forks(philo);
+		return (0);
+	}
+	pthread_mutex_unlock(&philo->meals_mutex);
 	eat(philo);
 	put_down_forks(philo);
 	*has_forks = 0;
@@ -31,8 +39,7 @@ int	philo_cycle(t_philo *philo, int *has_forks)
 	if (check_simulation_stop(philo->data))
 		return (0);
 	think(philo);
-	ft_usleep(1, philo->data);
-	return (1);
+	return (!check_simulation_stop(philo->data));
 }
 
 int	acquire_fork(t_data *data, int fork_id, int philo_id)
