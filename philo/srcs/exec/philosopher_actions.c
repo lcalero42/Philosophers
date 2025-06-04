@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:35:03 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/04 13:42:33 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:19:05 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,20 @@ int	take_forks(t_philo *philo)
 	int		second_fork;
 
 	data = philo->data;
+	pthread_mutex_lock(&data->fork_access_mutex);
 	get_fork_order(philo, &first_fork, &second_fork);
-	if (!acquire_fork(data, first_fork, philo->id))
-		return (0);
-	if (!acquire_fork(data, second_fork, philo->id))
+	if (!acquire_fork(data, first_fork, philo->id)
+		|| !acquire_fork(data, second_fork, philo->id))
 	{
-		data->forks[first_fork].is_taken = 0;
-		pthread_mutex_unlock(&data->forks[first_fork].mutex);
+		if (data->forks[first_fork].is_taken)
+		{
+			data->forks[first_fork].is_taken = 0;
+			pthread_mutex_unlock(&data->forks[first_fork].mutex);
+		}
+		pthread_mutex_unlock(&data->fork_access_mutex);
 		return (0);
 	}
+	pthread_mutex_unlock(&data->fork_access_mutex);
 	return (1);
 }
 

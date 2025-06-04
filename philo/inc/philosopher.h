@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/04 13:56:44 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:10:58 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_data
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	start_mutex;
+	pthread_mutex_t	fork_access_mutex;
 	int				threads_ready;
 	int				all_threads_ready;
 }		t_data;

@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:08:30 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/22 17:41:42 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:14:36 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	exec(t_data *data)
 		ret_error(data, "Failed to init mutex\n");
 	if (pthread_mutex_init(&data->start_mutex, NULL))
 		ret_error(data, "Failed to init start mutex\n");
+	if (pthread_mutex_init(&data->fork_access_mutex, NULL))
+		ret_error(data, "Failed to init fork mutex\n");
 	if (data->nb_philo == 1)
 	{
 		handle_single_philosopher(data);
@@ -88,6 +90,7 @@ void	cleanup(t_data *data)
 	pthread_mutex_destroy(&data->stop_mutex);
 	pthread_mutex_destroy(&data->print_mutex);
 	pthread_mutex_destroy(&data->start_mutex);
+	pthread_mutex_destroy(&data->fork_access_mutex);
 }
 
 static void	handle_single_philosopher(t_data *data)
