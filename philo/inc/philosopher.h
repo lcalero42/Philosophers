@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luis <luis@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/05/31 16:04:10 by luis             ###   ########.fr       */
+/*   Updated: 2025/06/04 13:56:44 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void		sync_monitor_routine(t_data *data);
 void		get_fork_order(t_philo *philo, int *first, int *second);
 void		release_forks(t_data *data, int first_fork, int second_fork);
 int			acquire_fork(t_data *data, int fork_id, int philo_id);
+void		check_meals(int local_meals, t_data *data);
+int			check_limit_reached(t_philo *philo);
 
 //ERROR HANDLING
 void		ret_error(t_data *data, const char *error_mess);

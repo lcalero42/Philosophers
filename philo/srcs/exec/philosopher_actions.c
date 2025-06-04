@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:35:03 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/03 11:43:18 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:42:33 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	eat(t_philo *philo)
 {
 	t_data	*data;
 	int		local_meals_eaten;
-	int		all_full;
 
 	data = philo->data;
 	update_last_meal(philo);
@@ -45,19 +44,7 @@ void	eat(t_philo *philo)
 	philo->meals_eaten++;
 	local_meals_eaten = philo->meals_eaten;
 	pthread_mutex_unlock(&philo->meals_mutex);
-	if (data->nb_eat != -1 && local_meals_eaten == data->nb_eat)
-	{
-		all_full = 1;
-		for (int i = 0; i < data->nb_philo; ++i)
-		{
-			pthread_mutex_lock(&data->philosophers[i].meals_mutex);
-			if (data->philosophers[i].meals_eaten < data->nb_eat)
-				all_full = 0;
-			pthread_mutex_unlock(&data->philosophers[i].meals_mutex);
-		}
-		if (all_full)
-			set_simulation_stop(data);
-	}
+	check_meals(local_meals_eaten, data);
 }
 
 void	put_down_forks(t_philo *philo)

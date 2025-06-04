@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:59:26 by luis              #+#    #+#             */
-/*   Updated: 2025/06/03 11:43:50 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:58:49 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,15 @@ int	philo_cycle(t_philo *philo, int *has_forks)
 		return (0);
 	}
 	*has_forks = 1;
-	pthread_mutex_lock(&philo->meals_mutex);
-	if (philo->data->nb_eat != -1 && philo->meals_eaten >= philo->data->nb_eat)
+	if (check_limit_reached(philo))
 	{
-		pthread_mutex_unlock(&philo->meals_mutex);
 		put_down_forks(philo);
 		return (0);
 	}
-	pthread_mutex_unlock(&philo->meals_mutex);
 	eat(philo);
 	put_down_forks(philo);
 	*has_forks = 0;
-	if (check_simulation_stop(philo->data))
+	if (check_simulation_stop(philo->data) || check_limit_reached(philo))
 		return (0);
 	philo_sleep(philo);
 	if (check_simulation_stop(philo->data))
@@ -75,5 +72,27 @@ void	get_fork_order(t_philo *philo, int *first, int *second)
 	{
 		*first = philo->left_fork_id;
 		*second = philo->right_fork_id;
+	}
+}
+
+void	check_meals(int local_meals, t_data *data)
+{
+	int		all_full;
+	int		i;
+
+	if (data->nb_eat != -1 && local_meals == data->nb_eat)
+	{
+		all_full = 1;
+		i = 0;
+		while (i < data->nb_philo)
+		{
+			pthread_mutex_lock(&data->philosophers[i].meals_mutex);
+			if (data->philosophers[i].meals_eaten < data->nb_eat)
+				all_full = 0;
+			pthread_mutex_unlock(&data->philosophers[i].meals_mutex);
+			i++;
+		}
+		if (all_full)
+			set_simulation_stop(data);
 	}
 }
