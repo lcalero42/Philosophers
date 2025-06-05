@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:08:30 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/04 14:14:36 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:30:05 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,22 @@ void	cleanup(t_data *data)
 	i = 0;
 	while (i < data->nb_philo)
 	{
-		pthread_mutex_destroy(&data->philosophers[i].last_meal_mutex);
-		pthread_mutex_destroy(&data->forks[i].mutex);
+		if (pthread_mutex_destroy(&data->philosophers[i].last_meal_mutex))
+			printf("Error destroying last_meal for philosopher %d\n", i + 1);
+		if (pthread_mutex_destroy(&data->philosophers[i].meals_mutex))
+			printf("Error destroying meals_mutex for philosopher %d\n", i + 1);
+		if (pthread_mutex_destroy(&data->forks[i].mutex))
+			printf("Error destroying fork mutex %d\n", i + 1);
 		i++;
 	}
-	pthread_mutex_destroy(&data->stop_mutex);
-	pthread_mutex_destroy(&data->print_mutex);
-	pthread_mutex_destroy(&data->start_mutex);
-	pthread_mutex_destroy(&data->fork_access_mutex);
+	if (pthread_mutex_destroy(&data->stop_mutex))
+		printf("Error destroying stop mutex\n");
+	if (pthread_mutex_destroy(&data->print_mutex))
+		printf("Error destroying print mutex\n");
+	if (pthread_mutex_destroy(&data->start_mutex))
+		printf("Error destroying start mutex\n");
+	if (pthread_mutex_destroy(&data->fork_access_mutex))
+		printf("Error destroying fork access mutex\n");
 }
 
 static void	handle_single_philosopher(t_data *data)

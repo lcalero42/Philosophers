@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:35:03 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/04 14:19:05 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:29:22 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,12 @@ void	philo_sleep(t_philo *philo)
 
 void	think(t_philo *philo)
 {
+	int	think_time;
+
 	print_status(philo->data, philo->id, "is thinking", 0);
-	if (philo->id % 2 != 0 && philo->data->time_eat >= philo->data->time_sleep)
-		ft_usleep(philo->data->time_eat - philo->data->time_sleep + 1,
-			philo->data);
+	if (philo->data->nb_philo % 2 != 0)
+	{
+		think_time = (philo->data->time_eat * 2 - philo->data->time_sleep);
+		ft_usleep(think_time, philo->data);
+	}
 }

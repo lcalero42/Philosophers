@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:35:26 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/03 11:31:47 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:29:32 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*philosopher_routine(void *arg)
 	sync_philo_routine(data, philo);
 	update_last_meal(philo);
 	if (philo->id % 2 == 0)
-		usleep(100);
+		usleep(1000);
 	while (!check_simulation_stop(data))
 	{
 		if (!philo_cycle(philo, &has_forks))

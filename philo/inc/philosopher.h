@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/04 14:10:58 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:51:41 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/time.h>
 # include <stdlib.h>
 # include <string.h>
+# include <limits.h>
 
 //MACROS
 # define MAX_PHILO 250
