@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:42:40 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/04 14:03:17 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/11 16:33:26 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_limit_reached(t_philo *philo)
 
 void	ret_error(t_data *data, const char *error_mess)
 {
-	perror(error_mess);
+	printf("%s\n", error_mess);
 	set_simulation_stop(data);
 	join_threads(data);
 	cleanup(data);

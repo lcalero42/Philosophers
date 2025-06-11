@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:08:30 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/05 11:30:05 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/11 16:33:06 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,11 @@ static void	create_threads(t_data *data)
 		if (pthread_create(&data->philosophers[i].thread_id, NULL,
 				philosopher_routine, &data->philosophers[i]) != 0)
 		{
-			perror("Failed to create philosopher thread\n");
+			printf("Failed to create philosopher thread\n");
 			set_simulation_stop(data);
 			while (--i >= 0)
 				pthread_join(data->philosophers[i].thread_id, NULL);
 			cleanup(data);
-			exit(EXIT_FAILURE);
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:59:26 by luis              #+#    #+#             */
-/*   Updated: 2025/06/05 11:40:44 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/11 16:32:30 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	philo_cycle(t_philo *philo, int *has_forks)
 {
-	think(philo);
-	if (check_simulation_stop(philo->data))
-		return (0);
 	take_forks(philo);
 	if (check_simulation_stop(philo->data))
 	{
@@ -36,6 +33,9 @@ int	philo_cycle(t_philo *philo, int *has_forks)
 	if (check_simulation_stop(philo->data) || check_limit_reached(philo))
 		return (0);
 	philo_sleep(philo);
+	if (check_simulation_stop(philo->data))
+		return (0);
+	think(philo);
 	return (!check_simulation_stop(philo->data));
 }
 
