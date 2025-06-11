@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:18:24 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/02 13:38:44 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/11 18:22:46 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	wait_threads(t_data *data)
 	while (1)
 	{
 		pthread_mutex_lock(&data->start_mutex);
-		if (data->threads_ready == data->nb_philo)
+		if (data->threads_ready == data->nb_philo
+			|| check_simulation_stop(data))
 		{
 			data->start_time = get_timestamp_ms();
 			data->all_threads_ready = 1;
@@ -37,7 +38,7 @@ void	sync_philo_routine(t_data *data, t_philo *philo)
 	while (1)
 	{
 		pthread_mutex_lock(&data->start_mutex);
-		if (data->all_threads_ready)
+		if (data->all_threads_ready || check_simulation_stop(data))
 		{
 			pthread_mutex_unlock(&data->start_mutex);
 			break ;
@@ -55,7 +56,7 @@ void	sync_monitor_routine(t_data *data)
 	while (1)
 	{
 		pthread_mutex_lock(&data->start_mutex);
-		if (data->all_threads_ready)
+		if (data->all_threads_ready || check_simulation_stop(data))
 		{
 			pthread_mutex_unlock(&data->start_mutex);
 			break ;

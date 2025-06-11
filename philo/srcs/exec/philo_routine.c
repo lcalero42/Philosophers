@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:35:26 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/05 11:29:32 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/11 17:53:50 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	*philosopher_routine(void *arg)
 	has_forks = 0;
 	philo = (t_philo *)arg;
 	data = philo->data;
+	if (check_simulation_stop(data))
+		return (NULL);
 	sync_philo_routine(data, philo);
 	update_last_meal(philo);
 	if (philo->id % 2 == 0)
@@ -86,6 +88,8 @@ void	*monitor_routine(void *arg)
 
 	data = (t_data *)arg;
 	sync_monitor_routine(data);
+	if (check_simulation_stop(data))
+		return (NULL);
 	while (1)
 	{
 		i = 0;

@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/05 11:51:41 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/11 18:19:05 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 # include <limits.h>
 
 //MACROS
-# define MAX_PHILO 250
+# ifndef MAX_PHILO
+#  define MAX_PHILO 250
+# endif
 
 //STRCUTS
 typedef struct s_fork
@@ -99,6 +101,6 @@ int			check_limit_reached(t_philo *philo);
 
 //ERROR HANDLING
 void		ret_error(t_data *data, const char *error_mess);
-int			check_params(t_data *data, int ac);
+int			check_params(t_data *data, int ac, char **av);
 
 #endif
