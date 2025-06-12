@@ -6,14 +6,16 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:59:26 by luis              #+#    #+#             */
-/*   Updated: 2025/06/11 16:32:30 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/12 10:18:11 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-int	philo_cycle(t_philo *philo, int *has_forks)
+int	philo_cycle(t_philo *philo, int *has_forks, int i)
 {
+	if (i == 0)
+		print_status(philo->data, philo->id, "is thinking", 0);
 	take_forks(philo);
 	if (check_simulation_stop(philo->data))
 	{
