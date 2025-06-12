@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:35:03 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/05 11:29:22 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:22:45 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,30 @@
 
 int	take_forks(t_philo *philo)
 {
-	t_data	*data;
-	int		first_fork;
-	int		second_fork;
+	int	first_fork;
+	int	second_fork;
 
-	data = philo->data;
-	pthread_mutex_lock(&data->fork_access_mutex);
 	get_fork_order(philo, &first_fork, &second_fork);
-	if (!acquire_fork(data, first_fork, philo->id)
-		|| !acquire_fork(data, second_fork, philo->id))
+	pthread_mutex_lock(&philo->data->forks[first_fork].mutex);
+	if (philo->data->forks[first_fork].is_taken
+		|| check_simulation_stop(philo->data))
 	{
-		if (data->forks[first_fork].is_taken)
-		{
-			data->forks[first_fork].is_taken = 0;
-			pthread_mutex_unlock(&data->forks[first_fork].mutex);
-		}
-		pthread_mutex_unlock(&data->fork_access_mutex);
+		pthread_mutex_unlock(&philo->data->forks[first_fork].mutex);
 		return (0);
 	}
-	pthread_mutex_unlock(&data->fork_access_mutex);
+	philo->data->forks[first_fork].is_taken = 1;
+	pthread_mutex_lock(&philo->data->forks[second_fork].mutex);
+	if (philo->data->forks[second_fork].is_taken
+		|| check_simulation_stop(philo->data))
+	{
+		philo->data->forks[first_fork].is_taken = 0;
+		pthread_mutex_unlock(&philo->data->forks[second_fork].mutex);
+		pthread_mutex_unlock(&philo->data->forks[first_fork].mutex);
+		return (0);
+	}
+	philo->data->forks[second_fork].is_taken = 1;
+	print_status(philo->data, philo->id, "has taken a fork", 0);
+	print_status(philo->data, philo->id, "has taken a fork", 0);
 	return (1);
 }
 
@@ -54,25 +59,14 @@ void	eat(t_philo *philo)
 
 void	put_down_forks(t_philo *philo)
 {
-	t_data	*data;
-	int		first_fork;
-	int		second_fork;
+	int	first_fork;
+	int	second_fork;
 
-	data = philo->data;
-	if (philo->id % 2 == 0)
-	{
-		first_fork = philo->right_fork_id;
-		second_fork = philo->left_fork_id;
-	}
-	else
-	{
-		first_fork = philo->left_fork_id;
-		second_fork = philo->right_fork_id;
-	}
-	data->forks[second_fork].is_taken = 0;
-	pthread_mutex_unlock(&data->forks[second_fork].mutex);
-	data->forks[first_fork].is_taken = 0;
-	pthread_mutex_unlock(&data->forks[first_fork].mutex);
+	get_fork_order(philo, &first_fork, &second_fork);
+	philo->data->forks[first_fork].is_taken = 0;
+	philo->data->forks[second_fork].is_taken = 0;
+	pthread_mutex_unlock(&philo->data->forks[second_fork].mutex);
+	pthread_mutex_unlock(&philo->data->forks[first_fork].mutex);
 }
 
 void	philo_sleep(t_philo *philo)

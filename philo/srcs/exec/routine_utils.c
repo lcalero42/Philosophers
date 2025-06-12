@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:59:26 by luis              #+#    #+#             */
-/*   Updated: 2025/06/12 10:18:11 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:19:04 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int	philo_cycle(t_philo *philo, int *has_forks, int i)
 {
 	if (i == 0)
 		print_status(philo->data, philo->id, "is thinking", 0);
-	take_forks(philo);
+	if (take_forks(philo))
+		*has_forks = 1;
 	if (check_simulation_stop(philo->data))
 	{
 		if (*has_forks)
 			put_down_forks(philo);
 		return (0);
 	}
-	*has_forks = 1;
 	if (check_limit_reached(philo))
 	{
 		put_down_forks(philo);
@@ -44,13 +44,17 @@ int	philo_cycle(t_philo *philo, int *has_forks, int i)
 int	acquire_fork(t_data *data, int fork_id, int philo_id)
 {
 	pthread_mutex_lock(&data->forks[fork_id].mutex);
-	data->forks[fork_id].is_taken = 1;
-	if (check_simulation_stop(data))
+	if (data->forks[fork_id].is_taken)
 	{
-		data->forks[fork_id].is_taken = 0;
 		pthread_mutex_unlock(&data->forks[fork_id].mutex);
 		return (0);
 	}
+	if (check_simulation_stop(data))
+	{
+		pthread_mutex_unlock(&data->forks[fork_id].mutex);
+		return (0);
+	}
+	data->forks[fork_id].is_taken = 1;
 	print_status(data, philo_id, "has taken a fork", 0);
 	return (1);
 }
