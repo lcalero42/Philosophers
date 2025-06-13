@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/12 10:18:47 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/13 14:36:41 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void		exec(t_data *data);
 void		*philosopher_routine(void *arg);
 void		*monitor_routine(void *arg);
 int			philo_cycle(t_philo *philo, int *has_forks, int i);
+void		init_mutexes(t_data *data);
 
 //PHILO ACTIONS
 int			take_forks(t_philo *philo);

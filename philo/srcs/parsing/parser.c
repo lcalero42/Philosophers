@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:59:21 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/11 18:22:14 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/13 14:36:21 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,16 @@ static void	init_forks(t_data *data)
 			ret_error(data, "Failed to init mutex\n");
 		i++;
 	}
+}
+
+void	init_mutexes(t_data *data)
+{
+	if (pthread_mutex_init(&data->stop_mutex, NULL))
+		ret_error(data, "Failed to init mutex\n");
+	if (pthread_mutex_init(&data->print_mutex, NULL))
+		ret_error(data, "Failed to init mutex\n");
+	if (pthread_mutex_init(&data->start_mutex, NULL))
+		ret_error(data, "Failed to init start mutex\n");
+	if (pthread_mutex_init(&data->fork_access_mutex, NULL))
+		ret_error(data, "Failed to init fork mutex\n");
 }

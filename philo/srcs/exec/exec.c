@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:08:30 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/13 14:16:58 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/13 14:41:51 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,7 @@ void	exec(t_data *data)
 {
 	pthread_t	monitor_thread;
 
-	if (pthread_mutex_init(&data->stop_mutex, NULL))
-		ret_error(data, "Failed to init mutex\n");
-	if (pthread_mutex_init(&data->print_mutex, NULL))
-		ret_error(data, "Failed to init mutex\n");
-	if (pthread_mutex_init(&data->start_mutex, NULL))
-		ret_error(data, "Failed to init start mutex\n");
-	if (pthread_mutex_init(&data->fork_access_mutex, NULL))
-		ret_error(data, "Failed to init fork mutex\n");
+	init_mutexes(data);
 	if (data->nb_philo == 1)
 	{
 		handle_single_philosopher(data);
@@ -34,13 +27,17 @@ void	exec(t_data *data)
 		return ;
 	}
 	create_threads(data);
+	if (check_simulation_stop(data))
+	{
+		cleanup(data);
+		return ;
+	}
 	wait_threads(data);
 	if (pthread_create(&monitor_thread, NULL, monitor_routine, data))
 		ret_error(data, "Failed to create monitor thread\n");
 	pthread_join(monitor_thread, NULL);
 	set_simulation_stop(data);
-	if (!check_simulation_stop(data))
-		join_threads(data);
+	join_threads(data);
 	cleanup(data);
 }
 
