@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:08:30 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/11 18:22:25 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/13 14:16:58 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	exec(t_data *data)
 		ret_error(data, "Failed to create monitor thread\n");
 	pthread_join(monitor_thread, NULL);
 	set_simulation_stop(data);
-	join_threads(data);
+	if (!check_simulation_stop(data))
+		join_threads(data);
 	cleanup(data);
 }
 
@@ -57,7 +58,6 @@ static void	create_threads(t_data *data)
 			set_simulation_stop(data);
 			while (--i >= 0)
 				pthread_join(data->philosophers[i].thread_id, NULL);
-			cleanup(data);
 			return ;
 		}
 		i++;
