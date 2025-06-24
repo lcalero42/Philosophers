@@ -6,7 +6,7 @@
 /*   By: lcalero <lcalero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:36:41 by lcalero           #+#    #+#             */
-/*   Updated: 2025/06/13 14:36:41 by lcalero          ###   ########.fr       */
+/*   Updated: 2025/06/24 12:37:20 by lcalero          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <stdlib.h>
 # include <string.h>
 # include <limits.h>
 
